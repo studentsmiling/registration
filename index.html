@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>Registration</title>
+</head>
+
+<body id="body">
+    <div class="reg">
+        <div class="container reg__container">
+            <div class="reg__wrapper">
+                <h1 class="reg__title">Registration Form</h1>
+                <div class="reg__name">
+                    <form id="regForm">
+                        <input type="text" placeholder="Username*" required id="name">
+                </div>
+                <div class="reg__number">
+                    <input type="tel" placeholder="Phone*" required id="phone">
+                </div>
+                <div class="reg__box">
+                    <button class="reg__button" type="submit">Registr</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ---------------------------------------J/S--------------------------------------- -->
+    <script>
+        const regForm = document.querySelector("#regForm")
+        const name = document.querySelector("#name")
+        const phone = document.querySelector("#phone")
+
+
+        regForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            if (localStorage.getItem("Name") !== name.value) {
+                localStorage.setItem("Name", name.value)
+                localStorage.setItem("Phone", phone.value)
+                body.style.backgroundColor = "lightgreen"
+                alert("You have successfully registrated")
+                window.location.href = "main.html"
+            } else {
+                alert("This phone number already registrated")
+            }
+
+            fetch("https://tekinmarket.uz/api/auth/v1/register", {
+                method: "POST",
+                body: JSON.stringify({ phoneNumber: phone.value }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+                .then((response) => response.json())
+                .then((json) => console.log(json, "jsonnn"));
+        }
+        )
+    </script>
+</body>
+
+</html>
